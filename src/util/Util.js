@@ -6,6 +6,7 @@ const { tmpdir } = require('os');
 const ffmpeg = require('fluent-ffmpeg');
 const webp = require('node-webpmux');
 const fs = require('fs').promises;
+const sharp = require('sharp');
 
 const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
 
@@ -182,6 +183,34 @@ class Util {
     static setFfmpegPath(path) {
         ffmpeg.setFfmpegPath(path);
     }
+
+    /**
+    * Formats a image to profilePicture
+    * @param {MessageMedia} media
+    * 
+    * @returns {Promise<MessageMedia>} media in profilePicture format
+    */
+    static async formatImageToProfilePic(media) {
+        if (!media.mimetype.includes('image')) { throw new Error('media is not a image') };
+        const buff = Buffer.from(media.data, 'base64');
+
+        let sharpImg = sharp(buff);
+
+        sharpImg = sharpImg.jpeg();
+
+        let meta = await sharpImg.metadata();
+
+        const min = Math.min(meta.width, meta.height);
+
+        sharpImg = sharpImg.extract({ left: 0, top: 0, width: min, height: min });
+
+        return {
+            img: (await (sharpImg.resize(640, 640, {})).toBuffer()).toString("base64"),
+            preview: (await (sharpImg.resize(96, 96, {})).toBuffer()).toString("base64"),
+
+        }
+    };
+
 }
 
 module.exports = Util;

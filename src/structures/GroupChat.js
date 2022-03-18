@@ -229,6 +229,16 @@ class GroupChat extends Chat {
         }, this.id._serialized);
     }
 
+     /**
+     * Set the profile picture of a group chat.
+     * @param {MessageMedia} picture The picture to set. 
+     * @returns {Promise<String | null>} The url of the image / null if you can't set the profile picture
+     */
+      async setProfilePicture(picture) {
+        return await this.client.setProfilePicture(this.id._serialized, picture);
+    }
+
+
 }
 
 module.exports = GroupChat;
