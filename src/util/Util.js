@@ -191,7 +191,7 @@ class Util {
     * @returns {Promise<MessageMedia>} media in profilePicture format
     */
     static async formatImageToProfilePic(media) {
-        if (!media.mimetype.includes('image')) { throw new Error('media is not a image') };
+        if (!media.mimetype.includes('image')) { throw new Error('media is not a image'); }
         const buff = Buffer.from(media.data, 'base64');
 
         let sharpImg = sharp(buff);
@@ -205,11 +205,11 @@ class Util {
         sharpImg = sharpImg.extract({ left: 0, top: 0, width: min, height: min });
 
         return {
-            img: (await (sharpImg.resize(640, 640, {})).toBuffer()).toString("base64"),
-            preview: (await (sharpImg.resize(96, 96, {})).toBuffer()).toString("base64"),
+            img: (await (sharpImg.resize(640, 640, {})).toBuffer()).toString('base64'),
+            preview: (await (sharpImg.resize(96, 96, {})).toBuffer()).toString('base64'),
 
-        }
-    };
+        };
+    }
 
 }
 
