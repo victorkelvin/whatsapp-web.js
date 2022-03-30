@@ -3,6 +3,7 @@
 const EventEmitter = require('events');
 const moduleRaid = require('@pedroslopez/moduleraid/moduleraid');
 const pie = require('puppeteer-in-electron');
+const jsQR = require('jsqr');
 
 const Util = require('./util/Util');
 const InterfaceController = require('./util/InterfaceController');
